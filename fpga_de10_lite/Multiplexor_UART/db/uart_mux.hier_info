@@ -1,0 +1,9 @@
+|uart_mux
+sel => esp_rx.OUTPUTSELECT
+sel => dyp_rx.OUTPUTSELECT
+esp_tx => dyp_rx.DATAB
+esp_rx <= esp_rx.DB_MAX_OUTPUT_PORT_TYPE
+dyp_tx => esp_rx.DATAB
+dyp_rx <= dyp_rx.DB_MAX_OUTPUT_PORT_TYPE
+
+

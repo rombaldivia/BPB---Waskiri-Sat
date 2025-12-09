@@ -1,0 +1,81 @@
+# =========================================================
+# Proyecto: uart_mux  (DE10-Lite, MAX 10 10M50DAF484C7G)
+# =========================================================
+
+set_global_assignment -name FAMILY "MAX 10"
+set_global_assignment -name DEVICE 10M50DAF484C7G
+set_global_assignment -name TOP_LEVEL_ENTITY uart_mux
+
+# Versión de Quartus (puedes ajustar si hace falta)
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION 20.1.0
+set_global_assignment -name LAST_QUARTUS_VERSION "20.1.0 Lite Edition"
+
+# ------- Archivo de diseño (VHDL) ------------------------
+# Asegúrate que el nombre del archivo es exactamente uart_mux.vhd
+set_global_assignment -name VHDL_FILE uart_mux.vhd
+
+# ------- Comportamiento de pines no usados ---------------
+# Más seguro: todos como entrada triestado con pull-up débil
+set_global_assignment -name RESERVE_ALL_UNUSED_PINS_WEAK_PULLUP "AS INPUT TRI-STATED"
+
+# =========================================================
+# Asignación de pines
+# =========================================================
+
+# -------------------------
+# Botón KEY0 para 'sel'
+# KEY[0] = PIN_B8 (debounced, activo en '0')
+# -------------------------
+set_location_assignment PIN_B8 -to sel
+set_instance_assignment -name IO_STANDARD "3.3 V SCHMITT TRIGGER" -to sel -entity uart_mux
+
+# =========================================================
+# UART ESP32 por cabecera Arduino (IO0 / IO1)
+# Según pinout DE10-Lite:
+#   ARDUINO_IO[0] = PIN_AB5  (RXD del shield)
+#   ARDUINO_IO[1] = PIN_AB6  (TXD del shield)
+# Aquí los usamos así:
+#   esp_tx : entra desde TX de la ESP32 -> FPGA
+#   esp_rx : sale desde FPGA -> RX de la ESP32
+# =========================================================
+
+# ESP32 TX -> FPGA (entrada)
+set_location_assignment PIN_AB5 -to esp_tx
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to esp_tx -entity uart_mux
+
+# FPGA -> ESP32 RX (salida)
+set_location_assignment PIN_AB6 -to esp_rx
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to esp_rx -entity uart_mux
+
+# =========================================================
+# UART del sensor DYP06 por conector GPIO0 (JP0)
+# Tomamos:
+#   GPIO[0] = PIN_V10
+#   GPIO[1] = PIN_W10
+# Usados así:
+#   dyp_tx : TX del DYP06 -> FPGA
+#   dyp_rx : FPGA -> RX del DYP06
+# =========================================================
+
+# DYP06 TX -> FPGA (entrada)
+set_location_assignment PIN_V10 -to dyp_tx
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to dyp_tx -entity uart_mux
+
+# FPGA -> DYP06 RX (salida)
+set_location_assignment PIN_W10 -to dyp_rx
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to dyp_rx -entity uart_mux
+
+# =========================================================
+# Opcional: si luego quieres usar reloj, LEDs, etc.,
+# se pueden añadir aquí más set_location_assignment.
+# =========================================================
+
+# Particiones por defecto (puedes dejarlas así o quitarlas si no las usas)
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -entity uart_mux -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -entity uart_mux -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -entity uart_mux -section_id Top
+
+
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

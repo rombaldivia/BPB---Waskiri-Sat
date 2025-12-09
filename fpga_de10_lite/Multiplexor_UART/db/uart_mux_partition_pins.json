@@ -1,0 +1,29 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "esp_rx",
+					"strict" : false
+				},
+				{
+					"name" : "dyp_rx",
+					"strict" : false
+				},
+				{
+					"name" : "sel",
+					"strict" : false
+				},
+				{
+					"name" : "dyp_tx",
+					"strict" : false
+				},
+				{
+					"name" : "esp_tx",
+					"strict" : false
+				}
+			]
+		}
+	]
+}

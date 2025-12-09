@@ -1,0 +1,21 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity uart_bridge is
+    Port (
+        sel    : in  std_logic;  -- 0 = conectar ESP<->DYP, 1 = romper
+
+        esp_tx : in  std_logic;
+        esp_rx : out std_logic;
+
+        dyp_tx : in  std_logic;
+        dyp_rx : out std_logic
+    );
+end uart_bridge;
+
+architecture Behavioral of uart_bridge is
+begin
+    -- Cuando sel = '0', conectamos cruzado los UART
+    esp_rx <= dyp_tx when sel = '0' else '1';  -- si sel='1', ESP ve línea idle
+    dyp_rx <= esp_tx when sel = '0' else '1';  -- si sel='1', DYP ve línea idle
+end Behavioral;

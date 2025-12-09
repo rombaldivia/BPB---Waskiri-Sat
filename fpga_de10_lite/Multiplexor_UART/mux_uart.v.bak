@@ -1,0 +1,10 @@
+module mux_uart(
+    input  wire sel,         // 0 = UART_A -> OUT_A, 1 = UART_B -> OUT_A
+    input  wire uart_a_rx,
+    input  wire uart_b_rx,
+    output wire uart_out_tx
+);
+
+assign uart_out_tx = (sel == 1'b0) ? uart_a_rx : uart_b_rx;
+
+endmodule

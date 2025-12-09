@@ -1,0 +1,69 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "enable_btn",
+					"strict" : false
+				},
+				{
+					"name" : "esp_uart_rx",
+					"strict" : false
+				},
+				{
+					"name" : "bp_uart_rx",
+					"strict" : false
+				},
+				{
+					"name" : "esp_spi_miso",
+					"strict" : false
+				},
+				{
+					"name" : "bp_spi_sclk",
+					"strict" : false
+				},
+				{
+					"name" : "bp_spi_mosi",
+					"strict" : false
+				},
+				{
+					"name" : "bp_spi_cs0",
+					"strict" : false
+				},
+				{
+					"name" : "key0",
+					"strict" : false
+				},
+				{
+					"name" : "key1",
+					"strict" : false
+				},
+				{
+					"name" : "bp_uart_tx",
+					"strict" : false
+				},
+				{
+					"name" : "esp_uart_tx",
+					"strict" : false
+				},
+				{
+					"name" : "bp_spi_miso",
+					"strict" : false
+				},
+				{
+					"name" : "esp_spi_sclk",
+					"strict" : false
+				},
+				{
+					"name" : "esp_spi_mosi",
+					"strict" : false
+				},
+				{
+					"name" : "esp_spi_cs0",
+					"strict" : false
+				}
+			]
+		}
+	]
+}

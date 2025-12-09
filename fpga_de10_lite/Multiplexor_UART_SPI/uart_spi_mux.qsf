@@ -1,0 +1,137 @@
+# -------------------------------------------------------------------------- #
+# Quartus Prime Settings File for uart_spi_mux
+# Device: MAX 10 10M50DAF484C7G (DE10-Lite)
+# -------------------------------------------------------------------------- #
+
+set_global_assignment -name FAMILY "MAX 10"
+set_global_assignment -name DEVICE 10M50DAF484C7G
+set_global_assignment -name TOP_LEVEL_ENTITY uart_spi_mux
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION 20.1.0
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "13:37:25  DECEMBER 05, 2025"
+set_global_assignment -name LAST_QUARTUS_VERSION "20.1.0 Lite Edition"
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 256
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+
+# Archivos de diseño
+set_global_assignment -name VHDL_FILE uart_spi_mux.vhd
+set_global_assignment -name VHDL_FILE uart_mux.vhd
+
+# Opcional: pines no usados como entrada tri‐state con pull-up débil
+set_global_assignment -name RESERVE_ALL_UNUSED_PINS_WEAK_PULLUP "AS INPUT TRI-STATED"
+
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+
+# =====================================================================
+#  PINS — DE10-Lite
+# =====================================================================
+
+#############################
+# BOTONES & LED
+#############################
+
+# KEY0 (PIN_B8)
+set_location_assignment PIN_B8 -to key0
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to key0
+
+# KEY1 (PIN_A7)
+set_location_assignment PIN_A7 -to key1
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to key1
+
+# LEDR0 (PIN_A8) -> enable_btn
+set_location_assignment PIN_A8 -to enable_btn
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to enable_btn
+
+
+#############################
+# UART – ESP32 (HEADER ARDUINO)
+#############################
+# Igual que en el proyecto uart_mux original:
+#   ARDUINO_IO1 = PIN_AB6  (TX del ESP32 hacia la FPGA)
+#   ARDUINO_IO0 = PIN_AB5  (RX del ESP32 desde la FPGA)
+
+# ESP32 TX -> FPGA
+set_location_assignment PIN_AB6 -to esp_uart_tx
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to esp_uart_tx
+
+# FPGA -> ESP32 RX
+set_location_assignment PIN_AB5 -to esp_uart_rx
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to esp_uart_rx
+
+
+#############################
+# UART – BACKPLANE (JP1 – GPIO)
+#############################
+# Igual que en uart_mux:
+#   GPIO_1 = PIN_W10  (TX del dispositivo UART -> FPGA)
+#   GPIO_0 = PIN_V10  (RX del dispositivo UART <- FPGA)
+
+# TX del dispositivo UART → FPGA
+set_location_assignment PIN_W10 -to bp_uart_tx
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to bp_uart_tx
+
+# RX del dispositivo UART ← FPGA
+set_location_assignment PIN_V10 -to bp_uart_rx
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to bp_uart_rx
+
+
+#############################
+# SPI – ESP32 (HEADER ARDUINO)
+#############################
+# Usamos el SPI tipo Arduino:
+#   SCK  = ARDUINO_IO13 = PIN_AB20
+#   MOSI = ARDUINO_IO11 = PIN_AA19
+#   MISO = ARDUINO_IO12 = PIN_Y19
+#   CS0  = ARDUINO_IO10 = PIN_AB19
+
+# SCK — ARDUINO_IO13
+set_location_assignment PIN_AB20 -to esp_spi_sclk
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to esp_spi_sclk
+
+# MOSI — ARDUINO_IO11
+set_location_assignment PIN_AA19 -to esp_spi_mosi
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to esp_spi_mosi
+
+# MISO — ARDUINO_IO12
+set_location_assignment PIN_Y19 -to esp_spi_miso
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to esp_spi_miso
+
+# CS0 — ARDUINO_IO10
+set_location_assignment PIN_AB19 -to esp_spi_cs0
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to esp_spi_cs0
+
+
+#############################
+# SPI – BACKPLANE (JP1 – GPIO)
+#############################
+# Mantengo el SPI de backplane en JP1 (GPIO) como lo tenías:
+#   GPIO_2 = PIN_V9  -> SCLK
+#   GPIO_4 = PIN_V8  -> MOSI
+#   GPIO_5 = PIN_W8  -> MISO
+#   GPIO_7 = PIN_W7  -> CS0
+
+# SCLK → dispositivo SPI
+set_location_assignment PIN_V9 -to bp_spi_sclk
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to bp_spi_sclk
+
+# MOSI → dispositivo SPI
+set_location_assignment PIN_V8 -to bp_spi_mosi
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to bp_spi_mosi
+
+# MISO ← dispositivo SPI
+set_location_assignment PIN_W8 -to bp_spi_miso
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to bp_spi_miso
+
+# CS0 → dispositivo SPI
+set_location_assignment PIN_W7 -to bp_spi_cs0
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to bp_spi_cs0
+
+
+# Partición por defecto
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+

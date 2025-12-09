@@ -1,0 +1,24 @@
+|uart_spi_mux
+key0 => enable_btn.IN0
+key0 => esp_uart_rx.OUTPUTSELECT
+key0 => bp_uart_rx.OUTPUTSELECT
+key1 => enable_btn.IN1
+key1 => bp_spi_sclk.OUTPUTSELECT
+key1 => bp_spi_mosi.OUTPUTSELECT
+key1 => bp_spi_cs0.OUTPUTSELECT
+key1 => esp_spi_miso.OUTPUTSELECT
+enable_btn << enable_btn.DB_MAX_OUTPUT_PORT_TYPE
+esp_uart_tx => bp_uart_rx.DATAB
+esp_uart_rx << esp_uart_rx.DB_MAX_OUTPUT_PORT_TYPE
+bp_uart_tx => esp_uart_rx.DATAB
+bp_uart_rx << bp_uart_rx.DB_MAX_OUTPUT_PORT_TYPE
+esp_spi_sclk => bp_spi_sclk.DATAB
+esp_spi_mosi => bp_spi_mosi.DATAB
+esp_spi_miso << esp_spi_miso.DB_MAX_OUTPUT_PORT_TYPE
+esp_spi_cs0 => bp_spi_cs0.DATAB
+bp_spi_sclk << bp_spi_sclk.DB_MAX_OUTPUT_PORT_TYPE
+bp_spi_mosi << bp_spi_mosi.DB_MAX_OUTPUT_PORT_TYPE
+bp_spi_miso => esp_spi_miso.DATAB
+bp_spi_cs0 << bp_spi_cs0.DB_MAX_OUTPUT_PORT_TYPE
+
+
