@@ -96,7 +96,7 @@ static esp_err_t init_sdcard(void)
 
     sdmmc_host_t host = SDSPI_HOST_DEFAULT();
     host.slot = VSPI_HOST;        // o HSPI_HOST, según tu caso
-    host.max_freq_khz = 2000;     // <<<----- SPI a 2 MHz para funcionar con FPGA
+    host.max_freq_khz = 10000;     // <<<----- SPI a 2 MHz para funcionar con FPGA
 
     spi_bus_config_t bus_cfg = {
         .mosi_io_num = PIN_NUM_MOSI,
