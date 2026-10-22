@@ -1,0 +1,81 @@
+set_global_assignment -name FAMILY "MAX II"
+set_global_assignment -name DEVICE EPM240T100C5
+set_global_assignment -name TOP_LEVEL_ENTITY BIRDS5_UART_SD_MUX
+set_global_assignment -name VHDL_FILE BIRDS5_UART_SD_MUX.vhd
+set_global_assignment -name RESERVE_ALL_UNUSED_PINS "AS INPUT TRI-STATED"
+set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVTTL"
+
+# --------------------------------------------------------------------
+# LEDs onboard
+# --------------------------------------------------------------------
+set_location_assignment PIN_21 -to led[0]
+set_location_assignment PIN_20 -to led[1]
+set_location_assignment PIN_19 -to led[2]
+set_location_assignment PIN_18 -to led[3]
+
+# --------------------------------------------------------------------
+# Botones candidatos
+# Ajustar si luego confirmamos otros KEY
+# --------------------------------------------------------------------
+set_location_assignment PIN_37 -to key_uart
+set_location_assignment PIN_38 -to key_sd
+
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to key_uart
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to key_sd
+
+# Botones nuevos (UART1 / SPI1) - EJEMPLO, ajustar a la placa
+set_location_assignment PIN_35 -to key_uart1
+set_location_assignment PIN_36 -to key_spi1
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to key_uart1
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to key_spi1
+
+# --------------------------------------------------------------------
+# UART - EJEMPLO DE PINES, CAMBIAR SEGÚN TU CABLEADO
+# --------------------------------------------------------------------
+set_location_assignment PIN_41 -to esp_uart_tx
+set_location_assignment PIN_42 -to esp_uart_rx
+set_location_assignment PIN_43 -to bpb_uart_tx
+set_location_assignment PIN_47 -to bpb_uart_rx
+
+# --------------------------------------------------------------------
+# SD / SPI - EJEMPLO DE PINES, CAMBIAR SEGÚN TU CABLEADO
+# --------------------------------------------------------------------
+set_location_assignment PIN_48 -to esp_sd_sck
+set_location_assignment PIN_49 -to esp_sd_mosi
+set_location_assignment PIN_50 -to esp_sd_cs
+set_location_assignment PIN_51 -to esp_sd_miso
+
+set_location_assignment PIN_52 -to bpb_sd_sck
+set_location_assignment PIN_53 -to bpb_sd_mosi
+set_location_assignment PIN_54 -to bpb_sd_cs
+set_location_assignment PIN_55 -to bpb_sd_miso
+
+# --------------------------------------------------------------------
+# UART1 - EJEMPLO DE PINES, CAMBIAR SEGUN TU CABLEADO
+# --------------------------------------------------------------------
+set_location_assignment PIN_56 -to bpb_uart1_tx
+set_location_assignment PIN_57 -to bpb_uart1_rx
+
+# --------------------------------------------------------------------
+# SPI1 - EJEMPLO DE PINES, CAMBIAR SEGUN TU CABLEADO
+# (se saltan 59 VCCIO2, 60 GND, 62 GCLK2, 63 VCCINT, 64 GCLK3, 65 GND)
+# --------------------------------------------------------------------
+set_location_assignment PIN_58 -to bpb_spi1_sck
+set_location_assignment PIN_61 -to bpb_spi1_mosi
+set_location_assignment PIN_66 -to bpb_spi1_cs
+set_location_assignment PIN_67 -to bpb_spi1_miso
+
+# --------------------------------------------------------------------
+# Pull-ups en entradas que vienen de conectores externos
+# (evitan lineas flotantes si la ESP32, el backplane o la SD no estan
+#  conectados; MISO y CS con pull-up son ademas requisito de SD en SPI)
+# --------------------------------------------------------------------
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to esp_uart_tx
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to bpb_uart_tx
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to esp_sd_cs
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to bpb_sd_miso
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to bpb_uart1_tx
+set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to bpb_spi1_miso
+
+set_global_assignment -name LAST_QUARTUS_VERSION "25.1std.0 Lite Edition"
+set_global_assignment -name RESERVE_ALL_UNUSED_PINS_NO_OUTPUT_GND "AS INPUT TRI-STATED"
